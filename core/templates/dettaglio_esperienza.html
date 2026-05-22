@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="mb-4">{{ esperienza.titolo }}</h1>
+            
+            <img src="/media/esperienze/esperienza_{{ esperienza.id_esperienza }}.png"
+                 class="img-fluid rounded mb-4"
+                 alt="{{ esperienza.titolo }}"
+                 style="width:100%; height:300px; object-fit:cover;"
+                 onerror="this.style.display='none'; document.getElementById('img-fallback-esp').style.display='flex';">
+            <div id="img-fallback-esp" class="bg-gradient text-white rounded mb-4 align-items-center justify-content-center"
+                 style="height:300px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display:none;">
+                <div class="text-center">
+                    <i class="bi bi-star-fill" style="font-size: 5rem;"></i>
+                </div>
+            </div>
+            
+            <p class="lead">{{ esperienza.descrizione }}</p>
+            
+            <hr>
+            <h4>Recensioni</h4>
+            {% if recensioni %}
+              {% for r in recensioni %}
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <strong>{{ r.autore }}</strong>
+                      <small class="text-muted">{{ r.data }}</small>
+                    </div>
+                    <div class="mt-2">Voto: <strong>{{ r.voto }}</strong>/5</div>
+                    <p class="mt-2 mb-0">{{ r.commento }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p class="text-muted">Ancora nessuna recensione per questa esperienza.</p>
+            {% endif %}
+
+            <div class="row mt-4">
+                <div class="col-sm-6">
+                    <h5>Dettagli Esperienza</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>Categoria:</strong> {{ esperienza.categoria }}</li>
+                        <li><strong>Luogo:</strong> {{ esperienza.luogo }}</li>
+                        <li><strong>Durata:</strong> {{ esperienza.durata }}</li>
+                        <li><strong>Capienza Massima:</strong> {{ esperienza.capienza_massima }} persone</li>
+                        {% if esperienza.id_agenzia %}
+                        <li><strong>Agenzia:</strong> {{ esperienza.id_agenzia.nome }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    <h5>Prezzo</h5>
+                    <p class="h4 text-success">{{ esperienza.prezzo }}€ <small class="text-muted">/ persona</small></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Prenota questa esperienza</h5>
+                    <form method="post" id="form-prenotazione-esp" data-prezzo="{{ esperienza.prezzo }}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="data_esperienza" class="form-label">Data Esperienza</label>
+                            <input type="date" class="form-control" id="data_esperienza" name="data_esperienza" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="numero_partecipanti" class="form-label">Numero Partecipanti</label>
+                            <input type="number" class="form-control" id="numero_partecipanti" name="numero_partecipanti" 
+                                   min="1" max="{{ esperienza.capienza_massima }}" required>
+                            <small class="text-muted">Massimo {{ esperienza.capienza_massima }} persone</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Prezzo Totale</label>
+                            <p class="h5 text-success" id="prezzo_totale">0€</p>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Prenota ora</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal di successo prenotazione -->
+<div class="modal fade" id="successModal" tabindex="-1"
+     aria-labelledby="successModalLabel" aria-hidden="true"
+     data-confermata="{{ prenotazione_confermata|yesno:'true,false' }}">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white border-0">
+                <h5 class="modal-title" id="successModalLabel">✓ Esperienza Prenotata!</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h4 class="mb-3">Hai prenotato con successo!</h4>
+                <p class="text-muted mb-4">La tua prenotazione per l'esperienza è stata confermata. Ecco il codice di conferma:</p>
+                <div class="alert alert-info">
+                    <h5 style="letter-spacing: 2px; font-weight: bold;">{{ codice_conferma }}</h5>
+                </div>
+                <p class="text-muted">Conserva questo codice per i tuoi riferimenti.</p>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal" data-url="{% url 'home' %}" onclick="window.location.href=this.dataset.url">Torna alla Home</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Calcolo prezzo totale dinamico
+    // Il prezzo è passato via data-prezzo sul form, senza tag di template nello script
+    var formPrenotazione = document.getElementById('form-prenotazione-esp');
+    var prezzoPerPersona = formPrenotazione ? parseFloat(formPrenotazione.dataset.prezzo) || 0 : 0;
+    var inputPartecipanti = document.getElementById('numero_partecipanti');
+    var prezzoTotaleDiv = document.getElementById('prezzo_totale');
+
+    function aggiornaPrezzoTotale() {
+        var n = parseInt(inputPartecipanti.value) || 0;
+        var totale = (n * prezzoPerPersona).toFixed(2);
+        prezzoTotaleDiv.textContent = totale + '\u20AC';
+    }
+
+    if (inputPartecipanti) {
+        inputPartecipanti.addEventListener('change', aggiornaPrezzoTotale);
+        inputPartecipanti.addEventListener('input', aggiornaPrezzoTotale);
+    }
+
+    // Mostra il modal se la prenotazione è confermata
+    // Il valore Django è passato via data-attribute, senza tag di template nello script
+    document.addEventListener('DOMContentLoaded', function() {
+        var modalEl = document.getElementById('successModal');
+        if (modalEl && modalEl.dataset.confermata === 'true') {
+            var modal = new bootstrap.Modal(modalEl);
+            modal.show();
+        }
+    });
+</script>
+
+{% endblock %}

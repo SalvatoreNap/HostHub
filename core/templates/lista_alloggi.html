@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">Esplora tutti gli alloggi</h1>
+        <span class="badge bg-primary fs-6">{{ alloggi|length }} strutture trovate</span>
+    </div>
+
+    <!-- Sezione Filtri -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">
+                <i class="bi bi-funnel"></i> Filtra gli alloggi
+            </h5>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-2">
+                    <label for="tipo_alloggio" class="form-label">Tipo Alloggio</label>
+                    <select class="form-select" id="tipo_alloggio" name="tipo_alloggio">
+                        <option value="">-- Tutti --</option>
+                        {% for tipo in tipi_alloggi %}
+                        <option value="{{ tipo }}" {% if filtri_applicati.tipo_alloggio == tipo %}selected{% endif %}>
+                            {{ tipo }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="prezzo_min" class="form-label">Prezzo Min. (€)</label>
+                    <input type="number" class="form-control" id="prezzo_min" name="prezzo_min" 
+                           min="0" step="0.01" placeholder="0" 
+                           value="{{ filtri_applicati.prezzo_min }}">
+                </div>
+
+                <div class="col-md-2">
+                    <label for="prezzo_max" class="form-label">Prezzo Max. (€)</label>
+                    <input type="number" class="form-control" id="prezzo_max" name="prezzo_max" 
+                           min="0" step="0.01" placeholder="1000" 
+                           value="{{ filtri_applicati.prezzo_max }}">
+                </div>
+
+                <div class="col-md-2">
+                    <label for="citta" class="form-label">Città</label>
+                    <select class="form-select" id="citta" name="citta">
+                        <option value="">-- Tutte --</option>
+                        {% for c in citta_list %}
+                        <option value="{{ c }}" {% if filtri_applicati.citta == c %}selected{% endif %}>
+                            {{ c }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="capienza" class="form-label">Capienza Min.</label>
+                    <input type="number" class="form-control" id="capienza" name="capienza" 
+                           min="1" step="1" placeholder="1" 
+                           value="{{ filtri_applicati.capienza }}">
+                </div>
+
+                <div class="col-md-2">
+                    <label for="ordina" class="form-label">Ordina per</label>
+                    <select class="form-select" id="ordina" name="ordina">
+                        <option value="">-- Predefinito --</option>
+                        <option value="prezzo_asc" {% if filtri_applicati.ordina == 'prezzo_asc' %}selected{% endif %}>Prezzo: crescente</option>
+                        <option value="prezzo_desc" {% if filtri_applicati.ordina == 'prezzo_desc' %}selected{% endif %}>Prezzo: decrescente</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end gap-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Cerca
+                    </button>
+                    <a href="{% url 'lista_alloggi' %}" class="btn btn-outline-secondary w-100">
+                        <i class="bi bi-arrow-clockwise"></i> Reset
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        {% for alloggio in alloggi %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="/media/alloggi/alloggio_{{ alloggio.id }}.png" 
+                     class="card-img-top" 
+                     alt="{{ alloggio.titolo }}"
+                     style="height: 200px; object-fit: cover;">
+                
+                <div class="card-body">
+                    <h5 class="card-title text-truncate" title="{{ alloggio.titolo }}">
+                        {{ alloggio.titolo }} 
+                    </h5>
+                    <p class="card-text text-muted mb-1">
+                        <i class="bi bi-house"></i> {{ alloggio.tipo_alloggio }} 
+                    </p>
+                    {% if alloggio.capienza %}
+                    <p class="card-text text-muted mb-2" style="font-size: 0.9rem;">
+                        <i class="bi bi-people"></i> Capienza: {{ alloggio.capienza }} ospiti
+                    </p>
+                    {% endif %}
+                    {% if alloggio.citta_nome %}
+                    <p class="card-text text-muted mb-2" style="font-size: 0.9rem;">
+                        <i class="bi bi-geo-alt"></i> {{ alloggio.citta_nome }}, {{ alloggio.citta_nazione }}
+                        {% if alloggio.citta_regione %}<br><small>{{ alloggio.citta_regione }}</small>{% endif %}
+                    </p>
+                    {% endif %}
+                    <p class="card-text">
+                        <span class="fs-5 fw-bold text-primary">{{ alloggio.prezzo_notte }}€</span> 
+                        <small class="text-muted">/ notte</small> 
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent border-0 pb-3">
+                    <a href="{% url 'dettaglio_alloggio' alloggio.id %}" class="btn btn-outline-primary btn-sm w-100">
+                        Vedi Dettaglio
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <h3>Nessun alloggio trovato.</h3>
+            <p class="text-muted">Torna più tardi per scoprire nuove offerte!</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

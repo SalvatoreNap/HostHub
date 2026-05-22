@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="mb-4">{{ alloggio.titolo }}</h1>
+            
+            {% if alloggio.immagine %}
+                <img src="{{ alloggio.immagine.url }}" class="img-fluid rounded mb-4" alt="{{ alloggio.titolo }}">
+            {% else %}
+                <img src="/media/alloggi/alloggio_{{ alloggio.id_alloggio }}.png" class="img-fluid rounded mb-4" alt="{{ alloggio.titolo }}">
+            {% endif %}
+            
+            <p class="lead">{{ alloggio.descrizione }}</p>
+            
+            <hr>
+            <h4>Recensioni</h4>
+            {% if recensioni %}
+              {% for r in recensioni %}
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <strong>{{ r.autore }}</strong>
+                      <small class="text-muted">{{ r.data }}</small>
+                    </div>
+                    <div class="mt-2">Voto: <strong>{{ r.voto }}</strong>/5</div>
+                    <p class="mt-2 mb-0">{{ r.commento }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p class="text-muted">Ancora nessuna recensione per questo alloggio.</p>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>Dettagli</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>Tipo:</strong> {{ alloggio.tipo_alloggio }}</li>
+                        <li><strong>Capienza:</strong> {{ alloggio.capienza }} persone</li>
+                        <li><strong>Camere:</strong> {{ alloggio.numero_camere }}</li>
+                        <li><strong>Letti:</strong> {{ alloggio.numero_letti }}</li>
+                        <li><strong>Bagni:</strong> {{ alloggio.numero_bagni }}</li>
+                        {% if alloggio.localita %}
+                        <li><strong>Località:</strong> {{ alloggio.localita }}</li>
+                        {% endif %}
+                        {% if alloggio.indirizzo %}
+                        <li><strong>Indirizzo:</strong> {{ alloggio.indirizzo }}</li>
+                        {% endif %}
+                        {% if alloggio.id_citta %}
+                        <li><strong>Città:</strong> {{ alloggio.id_citta.nome }}, {{ alloggio.id_citta.nazione }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    <h5>Prezzo</h5>
+                    <p class="h4 text-primary">{{ alloggio.prezzo_notte }}€ <small class="text-muted">/ notte</small></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Prenota questo alloggio</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="check_in" class="form-label">Check-in</label>
+                            <input type="date" class="form-control" id="check_in" name="check_in" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="check_out" class="form-label">Check-out</label>
+                            <input type="date" class="form-control" id="check_out" name="check_out" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="numero_ospiti" class="form-label">Numero ospiti</label>
+                            <input type="number" class="form-control" id="numero_ospiti" name="numero_ospiti" min="1" max="{{ alloggio.capienza }}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Prenota ora</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal di successo prenotazione -->
+<div class="modal fade" id="successModal" tabindex="-1"
+     aria-labelledby="successModalLabel" aria-hidden="true"
+     data-confermata="{{ prenotazione_confermata|yesno:'true,false' }}">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white border-0">
+                <h5 class="modal-title" id="successModalLabel">✓ Prenotazione Confermata!</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h4 class="mb-3">Hai prenotato con successo!</h4>
+                <p class="text-muted mb-4">La tua prenotazione è stata confermata. Ecco il codice di conferma:</p>
+                <div class="alert alert-info">
+                    <h5 style="letter-spacing: 2px; font-weight: bold;">{{ codice_conferma }}</h5>
+                </div>
+                <p class="text-muted">Conserva questo codice per i tuoi riferimenti.</p>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal" data-url="{% url 'home' %}" onclick="window.location.href=this.dataset.url">Torna alla Home</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Mostra il modal se la prenotazione è confermata
+    // Il valore Django è passato via data-attribute, senza tag di template nello script
+    document.addEventListener('DOMContentLoaded', function() {
+        var modalEl = document.getElementById('successModal');
+        if (modalEl && modalEl.dataset.confermata === 'true') {
+            var modal = new bootstrap.Modal(modalEl);
+            modal.show();
+        }
+    });
+</script>
+
+{% endblock %}
+</body>
+</html>

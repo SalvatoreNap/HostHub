@@ -1,0 +1,372 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .nav-tabs .nav-link {
+        color: white !important;
+    }
+    
+    .nav-tabs .nav-link.active {
+        color: #000 !important;
+        background-color: white;
+        border-bottom-color: white;
+    }
+    
+    .nav-tabs .nav-link:hover {
+        color: #f0f0f0 !important;
+    }
+</style>
+<div class="container mt-5">
+
+    {# Modal per avviso recensione bloccata #}
+    {% if messages %}
+      {% for m in messages %}
+        {% if 'review_blocked' in m.tags %}
+          <div class="modal fade" id="reviewBlockedModal" tabindex="-1" aria-labelledby="reviewBlockedModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="reviewBlockedModalLabel">Avviso</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">{{ m }}</div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+            document.addEventListener('DOMContentLoaded', function(){
+              var modalEl = document.getElementById('reviewBlockedModal');
+              if (modalEl) { var modal = new bootstrap.Modal(modalEl); modal.show(); }
+            });
+          </script>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Sidebar Profilo -->
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{ utente.nome }} {{ utente.cognome }}</h4>
+                    <p class="card-text text-muted">{{ utente.email }}</p>
+                    {% if utente.telefono %}
+                    <p class="card-text text-muted">{{ utente.telefono }}</p>
+                    {% endif %}
+                    <p class="card-text">
+                        <small class="text-muted">Registrato il {{ utente.data_registrazione }}</small>
+                    </p>
+                    <button type="button" class="btn btn-primary btn-sm w-100 mt-3" data-bs-toggle="modal" data-bs-target="#cambioPasswordModal">
+                        Cambia Password
+                    </button>
+                    <a href="{% url 'home' %}" class="btn btn-outline-primary btn-sm w-100 mt-2">Torna alla Home</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <!-- Tab di contenuti -->
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active text-white" id="alloggi-tab" data-bs-toggle="tab" data-bs-target="#alloggi-pane" type="button" role="tab">
+                                <i class="bi bi-house-door"></i> Alloggi
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-white" id="esperienze-tab" data-bs-toggle="tab" data-bs-target="#esperienze-pane" type="button" role="tab">
+                                <i class="bi bi-star"></i> Esperienze
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content card-body">
+                    <!-- Tab Alloggi -->
+                    <div class="tab-pane fade show active" id="alloggi-pane" role="tabpanel">
+                        {% if prenotazioni_alloggi %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Alloggio</th>
+                                            <th>Check-in</th>
+                                            <th>Check-out</th>
+                                            <th>Ospiti</th>
+                                            <th>Prezzo Totale</th>
+                                            <th>Stato</th>
+                                            <th>Codice</th>
+                                            <th>Azioni</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for prenotazione in prenotazioni_alloggi %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ prenotazione.id_alloggio.titolo }}</strong>
+                                                <br>
+                                                <small class="text-muted">{{ prenotazione.id_alloggio.tipo_alloggio }}</small>
+                                            </td>
+                                            <td>
+                                                <small>{{ prenotazione.check_in|date:"d/m/Y" }}</small>
+                                            </td>
+                                            <td>
+                                                <small>{{ prenotazione.check_out|date:"d/m/Y" }}</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-info">{{ prenotazione.numero_ospiti }}</span>
+                                            </td>
+                                            <td>
+                                                <strong class="text-primary">{{ prenotazione.prezzo_totale }}€</strong>
+                                            </td>
+                                            <td>
+                                                {% if prenotazione.stato == 'Confermata' %}
+                                                    <span class="badge bg-success">Confermata</span>
+                                                {% elif prenotazione.stato == 'Cancellata' %}
+                                                    <span class="badge bg-danger">Cancellata</span>
+                                                {% else %}
+                                                    <span class="badge bg-warning">{{ prenotazione.stato }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <code>{{ prenotazione.codice_conferma }}</code>
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'dettaglio_alloggio' prenotazione.id_alloggio.id_alloggio %}" class="btn btn-sm btn-outline-primary">
+                                                    Visualizza
+                                                </a>
+                                                {% if prenotazione.has_review %}
+                                                    <button class="btn btn-sm btn-secondary ms-1" disabled>Recensione inviata</button>
+                                                {% else %}
+                                                    <button class="btn btn-sm btn-outline-success ms-1" data-bs-toggle="modal" data-bs-target="#recAlloggioModal{{ prenotazione.id_prenotazione }}">Recensisci</button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+
+                                        <!-- Modal Recensione Alloggio -->
+                                        <div class="modal fade" id="recAlloggioModal{{ prenotazione.id_prenotazione }}" tabindex="-1" aria-labelledby="recAlloggioModalLabel{{ prenotazione.id_prenotazione }}" aria-hidden="true">
+                                          <div class="modal-dialog">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title" id="recAlloggioModalLabel{{ prenotazione.id_prenotazione }}">Scrivi una recensione</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                              </div>
+                                              <form method="post">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+                                                  <input type="hidden" name="prenotazione_id" value="{{ prenotazione.id_prenotazione }}">
+                                                  <div class="mb-3">
+                                                    <label class="form-label">Voto</label>
+                                                    <select class="form-select" name="voto" required>
+                                                      <option value="">-- Seleziona --</option>
+                                                      <option value="1">1</option>
+                                                      <option value="2">2</option>
+                                                      <option value="3">3</option>
+                                                      <option value="4">4</option>
+                                                      <option value="5">5</option>
+                                                    </select>
+                                                  </div>
+                                                  <div class="mb-3">
+                                                    <label class="form-label">Commento</label>
+                                                    <textarea class="form-control" name="commento" rows="4" required></textarea>
+                                                  </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                                                  <button type="submit" name="recensione_alloggio" class="btn btn-primary">Invia recensione</button>
+                                                </div>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info mb-0">
+                                <h5 class="alert-heading">Nessuna prenotazione di alloggi</h5>
+                                <p class="mb-0">Non hai ancora prenotato alloggi. <a href="{% url 'lista_alloggi' %}" class="alert-link">Esplora gli alloggi disponibili</a>.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Tab Esperienze -->
+                    <div class="tab-pane fade" id="esperienze-pane" role="tabpanel">
+                        {% if prenotazioni_esperienze %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Esperienza</th>
+                                            <th>Data Esperienza</th>
+                                            <th>Partecipanti</th>
+                                            <th>Prezzo Totale</th>
+                                            <th>Stato</th>
+                                            <th>Codice</th>
+                                            <th>Azioni</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for prenotazione in prenotazioni_esperienze %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ prenotazione.id_esperienza.titolo }}</strong>
+                                                <br>
+                                                <small class="text-muted">{{ prenotazione.id_esperienza.categoria }}</small>
+                                            </td>
+                                            <td>
+                                                <small>{{ prenotazione.data_esperienza|date:"d/m/Y" }}</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-info">{{ prenotazione.numero_partecipanti }}</span>
+                                            </td>
+                                            <td>
+                                                <strong class="text-success">{{ prenotazione.prezzo_totale }}€</strong>
+                                            </td>
+                                            <td>
+                                                {% if prenotazione.stato == 'Confermata' %}
+                                                    <span class="badge bg-success">Confermata</span>
+                                                {% elif prenotazione.stato == 'Cancellata' %}
+                                                    <span class="badge bg-danger">Cancellata</span>
+                                                {% else %}
+                                                    <span class="badge bg-warning">{{ prenotazione.stato }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <code>{{ prenotazione.codice_conferma }}</code>
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'dettaglio_esperienza' prenotazione.id_esperienza.id_esperienza %}" class="btn btn-sm btn-outline-success">
+                                                    Visualizza
+                                                </a>
+                                                {% if prenotazione.has_review %}
+                                                    <button class="btn btn-sm btn-secondary ms-1" disabled>Recensione inviata</button>
+                                                {% else %}
+                                                    <button class="btn btn-sm btn-outline-primary ms-1" data-bs-toggle="modal" data-bs-target="#recEsperienzaModal{{ prenotazione.id_prenotazione_esperienza }}">Recensisci</button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+
+                                        <!-- Modal Recensione Esperienza -->
+                                        <div class="modal fade" id="recEsperienzaModal{{ prenotazione.id_prenotazione_esperienza }}" tabindex="-1" aria-labelledby="recEsperienzaModalLabel{{ prenotazione.id_prenotazione_esperienza }}" aria-hidden="true">
+                                          <div class="modal-dialog">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title" id="recEsperienzaModalLabel{{ prenotazione.id_prenotazione_esperienza }}">Scrivi una recensione</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                              </div>
+                                              <form method="post">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+                                                  <input type="hidden" name="prenotazione_id" value="{{ prenotazione.id_prenotazione_esperienza }}">
+                                                  <div class="mb-3">
+                                                    <label class="form-label">Voto</label>
+                                                    <select class="form-select" name="voto" required>
+                                                      <option value="">-- Seleziona --</option>
+                                                      <option value="1">1</option>
+                                                      <option value="2">2</option>
+                                                      <option value="3">3</option>
+                                                      <option value="4">4</option>
+                                                      <option value="5">5</option>
+                                                    </select>
+                                                  </div>
+                                                  <div class="mb-3">
+                                                    <label class="form-label">Commento</label>
+                                                    <textarea class="form-control" name="commento" rows="4" required></textarea>
+                                                  </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                                                  <button type="submit" name="recensione_esperienza" class="btn btn-primary">Invia recensione</button>
+                                                </div>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info mb-0">
+                                <h5 class="alert-heading">Nessuna prenotazione di esperienze</h5>
+                                <p class="mb-0">Non hai ancora prenotato esperienze. <a href="{% url 'lista_esperienze' %}" class="alert-link">Scopri le esperienze disponibili</a>.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistiche -->
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Prenotazioni</h5>
+                            <h3 class="text-primary">{{ prenotazioni_alloggi|length|add:prenotazioni_esperienze|length }}</h3>
+                            <small class="text-muted">{{ prenotazioni_alloggi|length }} alloggi + {{ prenotazioni_esperienze|length }} esperienze</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Totale Speso</h5>
+                            <h3 class="text-success">{{ totale_speso }}€</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Prenotazioni Attive</h5>
+                            <h3 class="text-warning">{{ prenotazioni_attive }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Cambio Password -->
+<div class="modal fade" id="cambioPasswordModal" tabindex="-1" aria-labelledby="cambioPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white border-0">
+                <h5 class="modal-title" id="cambioPasswordModalLabel">Cambia Password</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="password_attuale" class="form-label">Password Attuale *</label>
+                        <input type="password" class="form-control" id="password_attuale" name="password_attuale" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nuova_password" class="form-label">Nuova Password *</label>
+                        <input type="password" class="form-control" id="nuova_password" name="nuova_password" minlength="6" required>
+                        <small class="text-muted">Minimo 6 caratteri</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="conferma_password" class="form-label">Conferma Password *</label>
+                        <input type="password" class="form-control" id="conferma_password" name="conferma_password" minlength="6" required>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                    <button type="submit" name="cambio_password" class="btn btn-primary">Cambia Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

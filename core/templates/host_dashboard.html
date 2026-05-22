@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1>Host Dashboard</h1>
+  <p class="text-muted">Benvenuto, {{ host.id_host.nome }}</p>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-4">
+      <div class="card shadow-sm p-3 text-center">
+        <h6>Alloggi gestiti</h6>
+        <h3>{{ alloggi_data|length }}</h3>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm p-3 text-center">
+        <h6>Prenotazioni totali</h6>
+        <h3>{{ total_prenotazioni }}</h3>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm p-3 text-center">
+        <h6>Guadagno totale (€)</h6>
+        <h3>{{ total_guadagnato }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <strong>I tuoi alloggi</strong>
+    </div>
+    <div class="card-body">
+      {% if alloggi_data %}
+        <div class="list-group">
+          {% for item in alloggi_data %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{ item.alloggio.titolo }}</strong><br>
+                <small class="text-muted">{{ item.alloggio.tipo_alloggio }} - {{ item.alloggio.capienza }} ospiti</small>
+              </div>
+              <div class="text-end">
+                <div>{{ item.numero_prenotazioni }} prenotazioni</div>
+                <div>{{ item.guadagnato }} €</div>
+                <a href="{% url 'edit_alloggio' item.alloggio.id_alloggio %}" class="btn btn-sm btn-primary mt-2">Modifica descrizione</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="mb-0">Non hai ancora annunci pubblicati.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      Prenotazioni recenti
+    </div>
+    <div class="card-body">
+      {% if recent_pren %}
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Alloggio</th>
+                <th>Ospite</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Prezzo</th>
+                <th>Stato</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in recent_pren %}
+                <tr>
+                  <td>{{ p.id_alloggio.titolo }}</td>
+                  <td>{{ p.id_utente.nome }} {{ p.id_utente.cognome }}</td>
+                  <td>{{ p.check_in|date:'d/m/Y' }}</td>
+                  <td>{{ p.check_out|date:'d/m/Y' }}</td>
+                  <td>{{ p.prezzo_totale }} €</td>
+                  <td>{{ p.stato }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="mb-0">Nessuna prenotazione recente.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

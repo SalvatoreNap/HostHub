@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1>Modifica Alloggio</h1>
+
+  <div class="card mt-3">
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label">Titolo</label>
+          <input type="text" class="form-control" value="{{ alloggio.titolo }}" disabled>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Capienza</label>
+          <input type="number" name="capienza" class="form-control"
+                 value="{{ alloggio.capienza|default_if_none:'' }}" min="1" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Numero camere</label>
+          <input type="number" name="numero_camere" class="form-control"
+                 value="{{ alloggio.numero_camere|default_if_none:'' }}" min="0" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Numero letti</label>
+          <input type="number" name="numero_letti" class="form-control"
+                 value="{{ alloggio.numero_letti|default_if_none:'' }}" min="1" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Numero bagni</label>
+          <input type="number" name="numero_bagni" class="form-control"
+                 value="{{ alloggio.numero_bagni|default_if_none:'' }}" min="0" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Prezzo per notte (€)</label>
+          <input type="number" name="prezzo_notte" class="form-control"
+                 value="{{ alloggio.prezzo_notte|default_if_none:'' }}" min="0" step="0.01" required>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Salva</button>
+        <a href="{% url 'host_dashboard' %}" class="btn btn-secondary ms-2">Annulla</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

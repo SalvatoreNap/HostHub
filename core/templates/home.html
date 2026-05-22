@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Benvenuto su HostHub</h1>
+        <p class="lead">Prenota alloggi unici ed esperienze indimenticabili.</p>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <form id="homeSearchForm" class="d-flex shadow-sm" onsubmit="return handleHomeSearch(event);">
+                    <input id="home_search_input" name="q" class="form-control me-2" type="search" placeholder="Dove vuoi andare? (es: Roma)">
+                    <button class="btn btn-primary" type="submit">Cerca</button>
+                </form>
+                <script>
+                  // Lista citta normalizzata
+                  const cities = [{% for c in citta_list %}'{{ c|escapejs }}'{% if not forloop.last %}, {% endif %}{% endfor %}];
+
+                  // Funzione per rimuovere accenti e spazi extra
+                  function normalize(str) {
+                    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+                  }
+
+                  function handleHomeSearch(e) {
+                    e.preventDefault();
+                    const val = normalize(document.getElementById('home_search_input').value);
+                    if (!val) return false;
+
+                    const match = cities.find(c => normalize(c) === val);
+                    if (match) {
+                      window.location.href = "{% url 'lista_alloggi' %}?citta=" + encodeURIComponent(match);
+                    } else {
+                      alert('Città non trovata tra quelle disponibili.');
+                    }
+                    return false;
+                  }
+                </script>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Destinazioni disponibili</h2>
+    <div class="mb-4">
+      <div class="d-flex overflow-auto py-3" style="gap:1rem;">
+        {% for c in citta_objs %}
+        <a href="{% url 'lista_alloggi' %}?citta={{ c.nome|urlencode }}" class="text-decoration-none text-dark" style="min-width: 220px; flex: 0 0 auto;">
+          <div class="card shadow-sm">
+              <img src="/media/citta/citta_{{ c.id_citta }}.png" class="card-img-top" alt="{{ c.nome }}" style="height:140px; object-fit:cover;">
+              <div class="card-body">
+                  <h6 class="card-title mb-1">{{ c.nome }}</h6>
+                  <p class="card-text text-muted mb-2" style="font-size:0.9rem;">{{ c.nazione }}</p>
+                  <span class="badge bg-info text-dark">{{ c.numero_alloggi }} alloggi</span>
+              </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <h2 class="mt-5 mb-4">I preferiti dagli utenti</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for alloggio in alloggi_top %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="/media/alloggi/alloggio_{{ alloggio.id_alloggio }}.png" class="card-img-top" alt="{{ alloggio.titolo }}">
+
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ alloggio.titolo }}</h5>
+                    <p class="card-text">{{ alloggio.tipo_alloggio }} a {{ alloggio.citta }}</p>
+                    <p class="fw-bold">⭐ {{ alloggio.media_voti }} ({{ alloggio.numero_recensioni }} recensioni)</p>
+                    <a href="{% url 'dettaglio_alloggio' alloggio.id_alloggio %}" class="btn btn-outline-primary btn-sm w-100">Visualizza Dettaglio</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
