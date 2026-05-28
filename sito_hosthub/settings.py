@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'HostHub',
         'USER': 'django_user',
-        'PASSWORD': 'sasa',
+        'PASSWORD': 'hosthub_db_pass',
         'HOST': '172.20.196.81',
         'PORT': '3306',
     }
