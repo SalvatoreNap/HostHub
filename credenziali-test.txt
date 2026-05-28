@@ -1,0 +1,7 @@
+Credenziali utenze per test
+
+Ruolo              Username                    Password
+------------------------------------------------------
+Amministratore    Salvatore                   sosnapoli
+Guest             sofiacasati@gmail.com       sofia
+Host              mario.rossi@email.it        prova1
