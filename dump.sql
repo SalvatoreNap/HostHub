@@ -50,7 +50,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -106,7 +106,7 @@ CREATE TABLE `alloggio` (
   KEY `id_citta` (`id_citta`),
   CONSTRAINT `alloggio_ibfk_1` FOREIGN KEY (`id_host`) REFERENCES `host` (`id_host`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `alloggio_ibfk_2` FOREIGN KEY (`id_citta`) REFERENCES `citta` (`id_citta`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +115,7 @@ CREATE TABLE `alloggio` (
 
 LOCK TABLES `alloggio` WRITE;
 /*!40000 ALTER TABLE `alloggio` DISABLE KEYS */;
-INSERT INTO `alloggio` VALUES (1,'Attico Vista Colosseo','Splendido attico','Via dei Fori 1',150.00,4,'Appartamento',2,2,1,1,1),(2,'Loft in Navigli','Moderno e luminoso','Ripa Ticinese 5',120.00,2,'Loft',1,1,1,2,2),(3,'Casa sul Golfo','Vista mare','Via Partenope 10',90.00,5,'Appartamento',3,4,2,3,3),(4,'Baita in Centro','Stile rustico','Via Po 20',85.00,3,'Casa indipendente',2,2,1,4,4),(5,'Camera agli Uffizi','Accogliente','Piazza Signoria 2',70.00,2,'Stanza privata',1,1,1,5,5),(6,'Palazzo Veneziano','Affresco storico','San Marco 100',250.00,6,'Villa',4,4,3,6,6),(7,'Student Room','Economica e centrale','Via Zamboni 50',40.00,1,'Stanza privata',1,1,1,7,7),(8,'Villa Monreale','Con piscina','Via Roma 100',300.00,10,'Villa',5,6,4,8,8),(9,'Porto Antico Flat','Vicino acquario','Via del Molo 3',95.00,4,'Appartamento',2,2,1,9,9),(10,'Romeo Balcony','Romantico rifugio','Via Mazzini 12',110.00,2,'Appartamento',1,1,1,10,10);
+INSERT INTO `alloggio` VALUES (1,'Attico Vista Colosseo','Splendido attico','Via dei Fori 1',150.00,4,'Appartamento',2,2,1,1,1),(2,'Loft in Navigli','Moderno e luminoso','Ripa Ticinese 5',120.00,2,'Loft',1,1,1,2,2),(3,'Casa sul Golfo','Vista mare','Via Partenope 10',90.00,5,'Appartamento',3,4,2,1,3),(4,'Baita in Centro','Stile rustico','Via Po 20',85.00,3,'Casa indipendente',2,2,1,4,4),(5,'Camera agli Uffizi','Accogliente','Piazza Signoria 2',70.00,2,'Stanza privata',1,1,1,1,5),(6,'Palazzo Veneziano','Affresco storico','San Marco 100',250.00,6,'Villa',4,4,3,6,6),(7,'Student Room','Economica e centrale','Via Zamboni 50',40.00,1,'Stanza privata',1,1,1,7,7),(8,'Villa Monreale','Con piscina','Via Roma 100',300.00,10,'Villa',5,6,4,8,8),(9,'Porto Antico Flat','Vicino acquario','Via del Molo 3',95.00,4,'Appartamento',2,2,1,9,9),(10,'Romeo Balcony','Romantico rifugio','Via Mazzini 12',110.00,2,'Appartamento',1,1,1,10,10),(11,'Camera con vista sulla Torre di Pisa','Camera elegante con vista sulla Torre pendente, arredi classici e atmosfera accogliente nel cuore di Pisa.','Centro storico',120.00,2,'Camera privata',1,1,1,1,11),(12,'Casa storica nel centro di Siena','Alloggio in edificio storico con facciata in pietra, dettagli tradizionali e posizione ideale per visitare Siena.','Centro storico',130.00,4,'Casa vacanze',2,2,1,1,12),(13,'Appartamento luminoso a Bari Vecchia','Appartamento accogliente con balcone fiorito e vista sui vicoli del centro storico di Bari.','Bari Vecchia',110.00,3,'Appartamento',1,2,1,1,13),(14,'Loft panoramico a Catania','Loft moderno con grandi vetrate, vista sull’Etna e ambienti ampi e luminosi.','Centro città',145.00,4,'Loft',2,2,1,1,14),(15,'Camera panoramica a Trieste','Alloggio luminoso con vista sul mare e arredi moderni, ideale per un soggiorno rilassante.','Centro città',95.00,2,'Camera privata',1,1,1,1,15),(16,'Appartamento elegante a Padova','Appartamento con travi a vista e affaccio sul centro storico, perfetto per coppie o piccoli gruppi.','Centro storico',120.00,4,'Appartamento',2,2,1,1,16),(17,'Casa rustica a Perugia','Alloggio in stile tradizionale con vista sulle colline umbre e atmosfera accogliente.','Zona collinare',110.00,4,'Casa vacanze',2,3,1,1,17),(18,'Dimora storica a Lecce','Elegante alloggio in pietra leccese con arredi classici e ambiente raffinato.','Centro storico',135.00,2,'Suite',1,1,1,1,18),(19,'Casa nei Sassi di Matera','Alloggio caratteristico scavato nella pietra, con interni suggestivi e atmosfera unica.','Sassi di Matera',145.00,4,'Casa tipica',2,2,1,1,19),(20,'Appartamento vista mare a Rimini','Alloggio moderno e luminoso vicino alla spiaggia, con terrazza e vista sul mare.','Lungomare',130.00,4,'Appartamento',2,2,1,1,20),(21,'Suite panoramica sul Lago di Como','Alloggio elegante con balcone e vista diretta sul lago, ideale per soggiorni romantici.','Lungolago',180.00,2,'Suite',1,1,1,1,21),(22,'Casa accogliente a Lucca','Appartamento dallo stile toscano con interni caldi e vista sul verde.','Centro storico',105.00,4,'Appartamento',2,2,1,1,22),(23,'Loft gastronomico a Parma','Alloggio spazioso con cucina moderna e dettagli eleganti, ideale per vivere il centro cittadino.','Centro città',115.00,4,'Loft',2,2,1,1,23),(24,'Loft moderno a Modena','Ambiente industrial chic con grandi vetrate, spazi aperti e design contemporaneo.','Zona centrale',125.00,4,'Loft',2,2,2,1,24),(25,'Camera artistica a Ravenna','Alloggio luminoso con dettagli ispirati ai mosaici ravennati e arredi curati.','Centro storico',100.00,2,'Camera privata',1,1,1,1,25),(26,'Chalet elegante a Trento','Alloggio in stile alpino con grandi finestre, vista sulle montagne e interni in legno.','Zona panoramica',160.00,4,'Chalet',2,2,1,1,26),(27,'Appartamento alpino a Bolzano','Appartamento luminoso con vista sulle Dolomiti, perfetto per soggiorni in montagna.','Centro città',170.00,4,'Appartamento',2,2,1,1,27),(28,'Terrazza sul mare a Cagliari','Alloggio con ampia terrazza vista mare, ideale per vacanze rilassanti in Sardegna.','Zona mare',150.00,4,'Appartamento',2,2,1,1,28),(29,'Loft sul porto di Olbia','Alloggio luminoso con vista sul porto e interni chiari in stile marinaro.','Zona porto',140.00,4,'Loft',2,2,1,1,29),(30,'Appartamento vista mare a Salerno','Alloggio moderno con balcone panoramico sul mare e ambienti luminosi.','Lungomare',135.00,4,'Appartamento',2,2,1,1,30),(31,'Villa panoramica ad Amalfi','Alloggio con terrazza vista Costiera Amalfitana, circondato da fiori e atmosfera mediterranea.','Zona panoramica',210.00,5,'Villa',3,3,2,1,31),(32,'Dimora medievale ad Assisi','Camera accogliente in edificio storico con pareti in pietra e arredi semplici.','Centro storico',95.00,2,'Camera privata',1,1,1,1,32),(33,'Chalet sulla neve ad Aosta','Chalet indipendente immerso nella neve, con vista sulle montagne e interni caldi.','Zona montana',190.00,4,'Chalet',2,2,1,1,33),(34,'Casa storica a Bergamo','Alloggio in borgo antico con architettura in pietra e atmosfera medievale.','Città Alta',120.00,3,'Casa vacanze',2,2,1,1,34),(35,'Camera musicale a Cremona','Alloggio luminoso con dettagli musicali e vista sul centro storico.','Centro storico',90.00,2,'Camera privata',1,1,1,1,35),(36,'Appartamento sul lago a Mantova','Alloggio con balcone e vista sull’acqua, ideale per visitare il centro di Mantova.','Zona lago',115.00,4,'Appartamento',2,2,1,1,36),(37,'Studio con biciclette a Ferrara','Monolocale accogliente in stile urbano, perfetto per esplorare Ferrara in bicicletta.','Centro storico',85.00,2,'Monolocale',1,1,1,1,37),(38,'Camera artistica a Urbino','Alloggio semplice e luminoso con scrivania, ideale per soggiorni culturali.','Centro storico',80.00,2,'Camera privata',1,1,1,1,38),(39,'Appartamento sul porto di Ancona','Alloggio con balcone panoramico sul porto, ideale per soggiorni vicino al mare.','Zona porto',120.00,3,'Appartamento',1,2,1,1,39),(40,'Casa sui canali di Livorno','Appartamento luminoso con vista sui canali storici di Livorno e atmosfera marinara.','Quartiere Venezia',110.00,4,'Appartamento',2,2,1,1,40);
 /*!40000 ALTER TABLE `alloggio` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -123,7 +123,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -150,7 +150,7 @@ CREATE TABLE `auth_group` (
   `name` varchar(150) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +178,7 @@ CREATE TABLE `auth_group_permissions` (
   KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
   CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +205,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,7 +239,7 @@ CREATE TABLE `auth_user` (
   `date_joined` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,7 +248,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1200000$yhcTgde2SwmCST2axVKrZN$aFKGN6zG2Dnb9MFr/H/IvhUnT7/S7CebYrR7nRInyQQ=','2026-05-17 22:15:48.758918',1,'Salvatore','','','salvatorenapolitano051@gmail.com',1,1,'2026-05-17 22:15:33.225089');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1200000$yhcTgde2SwmCST2axVKrZN$aFKGN6zG2Dnb9MFr/H/IvhUnT7/S7CebYrR7nRInyQQ=','2026-05-28 19:16:22.279197',1,'Salvatore','','','salvatorenapolitano051@gmail.com',1,1,'2026-05-17 22:15:33.225089');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,7 +268,7 @@ CREATE TABLE `auth_user_groups` (
   KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`),
   CONSTRAINT `auth_user_groups_group_id_97559544_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
   CONSTRAINT `auth_user_groups_user_id_6a12ed8b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -296,7 +296,7 @@ CREATE TABLE `auth_user_user_permissions` (
   KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`),
   CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -347,7 +347,7 @@ CREATE TABLE `citta` (
   `nazione` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `regione` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_citta`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -356,7 +356,7 @@ CREATE TABLE `citta` (
 
 LOCK TABLES `citta` WRITE;
 /*!40000 ALTER TABLE `citta` DISABLE KEYS */;
-INSERT INTO `citta` VALUES (1,'Roma','Italia','Lazio'),(2,'Milano','Italia','Lombardia'),(3,'Napoli','Italia','Campania'),(4,'Torino','Italia','Piemonte'),(5,'Firenze','Italia','Toscana'),(6,'Venezia','Italia','Veneto'),(7,'Bologna','Italia','Emilia-Romagna'),(8,'Palermo','Italia','Sicilia'),(9,'Genova','Italia','Liguria'),(10,'Verona','Italia','Veneto');
+INSERT INTO `citta` VALUES (1,'Roma','Italia','Lazio'),(2,'Milano','Italia','Lombardia'),(3,'Napoli','Italia','Campania'),(4,'Torino','Italia','Piemonte'),(5,'Firenze','Italia','Toscana'),(6,'Venezia','Italia','Veneto'),(7,'Bologna','Italia','Emilia-Romagna'),(8,'Palermo','Italia','Sicilia'),(9,'Genova','Italia','Liguria'),(10,'Verona','Italia','Veneto'),(11,'Pisa','Italia','Toscana'),(12,'Siena','Italia','Toscana'),(13,'Bari','Italia','Puglia'),(14,'Catania','Italia','Sicilia'),(15,'Trieste','Italia','Friuli-Venezia Giulia'),(16,'Padova','Italia','Veneto'),(17,'Perugia','Italia','Umbria'),(18,'Lecce','Italia','Puglia'),(19,'Matera','Italia','Basilicata'),(20,'Rimini','Italia','Emilia-Romagna'),(21,'Como','Italia','Lombardia'),(22,'Lucca','Italia','Toscana'),(23,'Parma','Italia','Emilia-Romagna'),(24,'Modena','Italia','Emilia-Romagna'),(25,'Ravenna','Italia','Emilia-Romagna'),(26,'Trento','Italia','Trentino-Alto Adige'),(27,'Bolzano','Italia','Trentino-Alto Adige'),(28,'Cagliari','Italia','Sardegna'),(29,'Olbia','Italia','Sardegna'),(30,'Salerno','Italia','Campania'),(31,'Amalfi','Italia','Campania'),(32,'Assisi','Italia','Umbria'),(33,'Aosta','Italia','Valle d\'Aosta'),(34,'Bergamo','Italia','Lombardia'),(35,'Cremona','Italia','Lombardia'),(36,'Mantova','Italia','Lombardia'),(37,'Ferrara','Italia','Emilia-Romagna'),(38,'Urbino','Italia','Marche'),(39,'Ancona','Italia','Marche'),(40,'Livorno','Italia','Toscana');
 /*!40000 ALTER TABLE `citta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -382,7 +382,7 @@ CREATE TABLE `django_admin_log` (
   CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
   CONSTRAINT `django_admin_log_chk_1` CHECK ((`action_flag` >= 0))
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -391,7 +391,7 @@ CREATE TABLE `django_admin_log` (
 
 LOCK TABLES `django_admin_log` WRITE;
 /*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
-INSERT INTO `django_admin_log` VALUES (1,'2026-05-17 22:16:23.975022','10','Chiara Russo (chiara.russo@email.it)',2,'[{\"changed\": {\"fields\": [\"Password hash\"]}}]',34,1),(2,'2026-05-17 22:16:48.549671','1','Mario Rossi (mario.rossi@email.it)',2,'[{\"changed\": {\"fields\": [\"Password hash\"]}}]',34,1);
+INSERT INTO `django_admin_log` VALUES (1,'2026-05-17 22:16:23.975022','10','Chiara Russo (chiara.russo@email.it)',2,'[{\"changed\": {\"fields\": [\"Password hash\"]}}]',34,1),(2,'2026-05-17 22:16:48.549671','1','Mario Rossi (mario.rossi@email.it)',2,'[{\"changed\": {\"fields\": [\"Password hash\"]}}]',34,1),(3,'2026-05-28 19:17:35.921126','3','Casa sul Golfo (Appartamento)',2,'[{\"changed\": {\"fields\": [\"Id host\"]}}]',8,1),(4,'2026-05-28 19:18:09.134897','5','Camera agli Uffizi (Stanza privata)',2,'[{\"changed\": {\"fields\": [\"Id host\"]}}]',8,1);
 /*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -408,7 +408,7 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -434,7 +434,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -460,7 +460,7 @@ CREATE TABLE `django_session` (
   `expire_date` datetime(6) NOT NULL,
   PRIMARY KEY (`session_key`),
   KEY `django_session_expire_date_a5c62663` (`expire_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -469,7 +469,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('nm13q2zd23w4rt699yur6knwe8ol0f29','eyJ1dGVudGVfaWQiOjEsInV0ZW50ZV9ub21lIjoiTWFyaW8iLCJpc19ob3N0Ijp0cnVlfQ:1wQKc4:FnAMxZctPHZcVQQKXDS-LP8Dmbta_9zsobdMFK_sP5Y','2026-06-05 07:48:08.658354');
+INSERT INTO `django_session` VALUES ('2prd3806m8xbnxfrwueox3tx2wq5xutq','.eJxVjMsOgyAURP_lro0RESkuu_cbyAWuxT4g4bFq-u-txi5czpw584ZaKBTSq4OJNf8U4otgghnTGqGBNWsfc4GppEoNaKzF65op7RowOHUG7YPCBtwdwy22NoaSVtNuk_aguZ2jo-f12J4OPGb_s0e7mEUgF8zYXhqF1DF34cRVz4xTl96NyB1bunFQVvYMnbAK1d4JOUj4fAGBIUm2:1wSgDO:E8Bm-eBIie0uPxG_hD17QbuxZm0WouKhj9D_tFq2O7U','2026-06-11 19:16:22.285942'),('pb6471gqg52ttal1gi1b2ysxvufs9xll','eyJ1dGVudGVfaWQiOjExLCJ1dGVudGVfbm9tZSI6IlNvZmlhIiwiaXNfaG9zdCI6ZmFsc2V9:1wQPZN:Y1liT9hSSvVbx3RwbhRct6t5GcIhNXFqE92FCxMh9og','2026-06-05 13:05:41.025161');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -493,7 +493,7 @@ CREATE TABLE `esperienze` (
   PRIMARY KEY (`id_esperienza`),
   KEY `id_agenzia` (`id_agenzia`),
   CONSTRAINT `esperienze_ibfk_1` FOREIGN KEY (`id_agenzia`) REFERENCES `agenzia` (`id_agenzia`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -502,7 +502,7 @@ CREATE TABLE `esperienze` (
 
 LOCK TABLES `esperienze` WRITE;
 /*!40000 ALTER TABLE `esperienze` DISABLE KEYS */;
-INSERT INTO `esperienze` VALUES (1,'Tour del Colosseo','Visita guidata completa',45.00,'3 ore','Cultura',20,'Roma',1),(2,'Corso di Pasta','Impara a fare la pasta fresca',60.00,'4 ore','Cucina',10,'Roma',1),(3,'Giro in Navigli','Aperitivo in barca',35.00,'2 ore','Intrattenimento',15,'Milano',2),(4,'Street Food Tour','Assaggia la vera pizza fitta',40.00,'3 ore','Cibo',12,'Napoli',3),(5,'Visita Uffizi','Salta la fila al museo',50.00,'2.5 ore','Arte',8,'Firenze',4),(6,'Giro in Gondola','Tour romantico dei canali',80.00,'1 ora','Romantico',6,'Venezia',5),(7,'Degustazione Vini','Vini dell Etna',55.00,'3 ore','Degustazione',10,'Palermo',6),(8,'Caccia al Tartufo','Con cani addestrati',90.00,'4 ore','Natura',8,'Torino',7),(9,'Whale Watching','Avvistamento balene',70.00,'5 ore','Natura',30,'Genova',8),(10,'Tour di Giulietta','Sui passi di Shakespeare',30.00,'2 ore','Cultura',15,'Verona',10);
+INSERT INTO `esperienze` VALUES (1,'Tour del Colosseo','Visita guidata completa',45.00,'3 ore','Cultura',20,'Roma',1),(2,'Corso di Pasta','Impara a fare la pasta fresca',60.00,'4 ore','Cucina',10,'Roma',1),(3,'Giro in Navigli','Aperitivo in barca',35.00,'2 ore','Intrattenimento',15,'Milano',2),(4,'Street Food Tour','Assaggia la vera pizza fitta',40.00,'3 ore','Cibo',12,'Napoli',3),(5,'Visita Uffizi','Salta la fila al museo',50.00,'2.5 ore','Arte',8,'Firenze',4),(6,'Giro in Gondola','Tour romantico dei canali',80.00,'1 ora','Romantico',6,'Venezia',5),(7,'Degustazione Vini','Vini dell Etna',55.00,'3 ore','Degustazione',10,'Palermo',6),(8,'Caccia al Tartufo','Con cani addestrati',90.00,'4 ore','Natura',8,'Torino',7),(9,'Whale Watching','Avvistamento balene',70.00,'5 ore','Natura',30,'Genova',8),(10,'Tour di Giulietta','Sui passi di Shakespeare',30.00,'2 ore','Cultura',15,'Verona',10),(11,'Tour di Piazza dei Miracoli a Pisa','Visita guidata alla Piazza dei Miracoli con la Torre pendente, il Duomo e i principali monumenti storici di Pisa.',45.00,'2 ore','Arte e cultura',25,'Pisa',4),(12,'Corteo storico delle contrade di Siena','Esperienza nel centro storico di Siena tra tradizioni medievali, contrade, bandiere e atmosfera del Palio.',50.00,'2 ore','Tradizioni locali',30,'Siena',4),(13,'Laboratorio di orecchiette a Bari','Laboratorio gastronomico dedicato alla preparazione della pasta fresca pugliese, con dimostrazione e degustazione finale.',55.00,'2 ore','Enogastronomia',15,'Bari',3),(14,'Escursione sull’Etna da Catania','Trekking guidato sull’Etna tra paesaggi vulcanici, crateri e viste panoramiche sulla Sicilia orientale.',70.00,'4 ore','Natura e trekking',18,'Catania',6),(15,'Tour storico tra i caffè di Trieste','Passeggiata guidata nel centro di Trieste con sosta nei caffè storici e racconto della tradizione mitteleuropea.',35.00,'2 ore','Tour culturale',20,'Trieste',5),(16,'Visita guidata nel centro di Padova','Percorso tra piazze, chiese e monumenti del centro storico di Padova con guida locale.',40.00,'2 ore','Arte e cultura',25,'Padova',5),(17,'Percorso sotterraneo a Perugia','Esperienza guidata tra vicoli medievali, archi e passaggi sotterranei della città di Perugia.',38.00,'2 ore','Tour storico',18,'Perugia',1),(18,'Passeggiata barocca a Lecce','Tour nel centro storico di Lecce alla scoperta delle chiese, dei palazzi e dell’architettura barocca.',42.00,'2 ore','Arte e cultura',25,'Lecce',3),(19,'Matera by night','Visita serale dei Sassi di Matera con panorami suggestivi e racconti sulla storia della città.',45.00,'2 ore','Tour panoramico',20,'Matera',3),(20,'Bike tour sul lungomare di Rimini','Tour in bicicletta lungo il mare di Rimini, tra spiagge, parchi e scorci panoramici.',30.00,'2 ore','Sport e natura',15,'Rimini',9),(21,'Giro in barca sul Lago di Como','Esperienza in barca sul Lago di Como con vista sulle ville storiche e sui paesaggi montani.',75.00,'1 ora e 30 minuti','Escursione in barca',10,'Como',2),(22,'Bike tour sulle mura di Lucca','Percorso in bicicletta sulle mura storiche di Lucca e nei principali punti panoramici della città.',32.00,'2 ore','Sport e cultura',15,'Lucca',4),(23,'Degustazione gastronomica a Parma','Esperienza dedicata ai sapori tipici di Parma con salumi, formaggi e prodotti locali.',55.00,'2 ore','Enogastronomia',18,'Parma',9),(24,'Tour motori e sapori a Modena','Esperienza tra tradizione automobilistica, aceto balsamico e paesaggi modenesi.',70.00,'3 ore','Enogastronomia',15,'Modena',9),(25,'Visita ai mosaici di Ravenna','Tour guidato nei luoghi più importanti di Ravenna alla scoperta dei celebri mosaici bizantini.',48.00,'2 ore','Arte e cultura',25,'Ravenna',9),(26,'Tour panoramico di Trento','Passeggiata guidata nel centro di Trento con vista sulle montagne e visita ai principali monumenti.',40.00,'2 ore','Tour culturale',25,'Trento',10),(27,'Escursione sulle Dolomiti da Bolzano','Trekking panoramico tra sentieri alpini, prati e vedute spettacolari sulle Dolomiti.',65.00,'4 ore','Natura e trekking',12,'Bolzano',10),(28,'Passeggiata al tramonto a Cagliari','Tour panoramico lungo la costa di Cagliari con vista sul mare e sui punti più suggestivi della città.',38.00,'2 ore','Tour panoramico',20,'Cagliari',6),(29,'Snorkeling nelle acque di Olbia','Esperienza di snorkeling in acque cristalline con guida e osservazione dei fondali marini.',60.00,'3 ore','Mare e natura',12,'Olbia',6),(30,'Passeggiata serale a Salerno','Tour sul lungomare di Salerno tra luci, panorama marino e atmosfera serale.',35.00,'2 ore','Tour serale',25,'Salerno',3),(31,'Tour in barca ad Amalfi','Escursione in barca lungo la Costiera Amalfitana con vista su borghi, scogliere e mare cristallino.',85.00,'2 ore','Escursione in barca',10,'Amalfi',3),(32,'Tour spirituale ad Assisi','Visita guidata nel centro storico di Assisi tra basiliche, vicoli medievali e luoghi francescani.',45.00,'2 ore','Tour religioso',25,'Assisi',1),(33,'Visita panoramica ad Aosta','Tour del centro storico di Aosta con vista sulle montagne e sui monumenti di epoca romana.',42.00,'2 ore','Tour culturale',20,'Aosta',7),(34,'Passeggiata medievale a Bergamo Alta','Percorso guidato tra vicoli, piazze e scorci storici della Città Alta di Bergamo.',40.00,'2 ore','Tour storico',25,'Bergamo',2),(35,'Laboratorio di liuteria a Cremona','Esperienza in bottega alla scoperta della tradizione dei violini e dell’artigianato cremonese.',60.00,'2 ore','Artigianato',12,'Cremona',2),(36,'Tour artistico di Mantova','Visita guidata nel centro storico di Mantova tra palazzi, piazze e architetture rinascimentali.',42.00,'2 ore','Arte e cultura',25,'Mantova',10),(37,'Ferrara in bicicletta','Tour in bici nel centro storico di Ferrara tra strade medievali, palazzi e mura cittadine.',32.00,'2 ore','Sport e cultura',15,'Ferrara',9),(38,'Visita culturale a Urbino','Tour guidato nella città rinascimentale di Urbino, tra panorami collinari e luoghi d’arte.',45.00,'2 ore','Arte e cultura',20,'Urbino',4),(39,'Tour panoramico di Ancona','Passeggiata guidata tra porto, belvederi e scorci sul mare della città di Ancona.',38.00,'2 ore','Tour panoramico',20,'Ancona',8),(40,'Giro in barca nei canali di Livorno','Esperienza in barca nei canali storici del quartiere Venezia di Livorno.',50.00,'1 ora e 30 minuti','Escursione in barca',12,'Livorno',4);
 /*!40000 ALTER TABLE `esperienze` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -690,7 +690,7 @@ CREATE TABLE `prenotazione_alloggio` (
   KEY `id_alloggio` (`id_alloggio`),
   CONSTRAINT `prenotazione_alloggio_ibfk_1` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id_utente`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `prenotazione_alloggio_ibfk_2` FOREIGN KEY (`id_alloggio`) REFERENCES `alloggio` (`id_alloggio`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -699,7 +699,7 @@ CREATE TABLE `prenotazione_alloggio` (
 
 LOCK TABLES `prenotazione_alloggio` WRITE;
 /*!40000 ALTER TABLE `prenotazione_alloggio` DISABLE KEYS */;
-INSERT INTO `prenotazione_alloggio` VALUES (1,'2025-10-01','2025-11-01','2025-11-05',2,600.00,'Completata','BKNG-2026-398DF1',2,1),(2,'2025-10-05','2025-11-10','2025-11-12',1,240.00,'Completata','BKNG-2026-CC5174',3,2),(3,'2025-10-10','2025-12-01','2025-12-07',4,540.00,'Completata','BKNG-2026-778AAD',4,3),(4,'2025-11-01','2025-12-15','2025-12-20',2,425.00,'Completata','BKNG-2026-2F7530',5,4),(5,'2025-11-15','2026-01-05','2026-01-08',2,210.00,'Completata','BKNG-2026-539351',6,5),(6,'2025-12-01','2026-01-10','2026-01-15',5,1250.00,'Completata','BKNG-2026-E3DE1A',7,6),(7,'2025-12-10','2026-02-01','2026-02-28',1,1080.00,'Completata','BKNG-2026-C04290',8,7),(8,'2026-01-05','2026-02-10','2026-02-17',8,2100.00,'Completata','BKNG-2026-CF78C2',9,8),(9,'2026-01-20','2026-03-01','2026-03-05',3,380.00,'Completata','BKNG-2026-2C4035',10,9),(10,'2026-02-01','2026-03-10','2026-03-12',2,220.00,'Completata','BKNG-2026-042EF0',1,10),(11,'2026-05-18','2026-05-18','2026-05-19',3,150.00,'Confermata','FD06C517',1,1),(12,'2026-05-18','2026-07-15','2026-07-25',4,900.00,'Confermata','D3223397',11,3);
+INSERT INTO `prenotazione_alloggio` VALUES (1,'2025-10-01','2025-11-01','2025-11-05',2,600.00,'Completata','BKNG-2026-398DF1',2,1),(2,'2025-10-05','2025-11-10','2025-11-12',1,240.00,'Completata','BKNG-2026-CC5174',3,2),(3,'2025-10-10','2025-12-01','2025-12-07',4,540.00,'Completata','BKNG-2026-778AAD',4,3),(4,'2025-11-01','2025-12-15','2025-12-20',2,425.00,'Completata','BKNG-2026-2F7530',5,4),(5,'2025-11-15','2026-01-05','2026-01-08',2,210.00,'Completata','BKNG-2026-539351',6,5),(6,'2025-12-01','2026-01-10','2026-01-15',5,1250.00,'Completata','BKNG-2026-E3DE1A',7,6),(7,'2025-12-10','2026-02-01','2026-02-28',1,1080.00,'Completata','BKNG-2026-C04290',8,7),(8,'2026-01-05','2026-02-10','2026-02-17',8,2100.00,'Completata','BKNG-2026-CF78C2',9,8),(9,'2026-01-20','2026-03-01','2026-03-05',3,380.00,'Completata','BKNG-2026-2C4035',10,9),(10,'2026-02-01','2026-03-10','2026-03-12',2,220.00,'Completata','BKNG-2026-042EF0',1,10),(11,'2026-05-18','2026-05-18','2026-05-19',3,150.00,'Confermata','FD06C517',1,1),(12,'2026-05-18','2026-07-15','2026-07-25',4,900.00,'Confermata','D3223397',11,3),(13,'2026-05-22','2026-05-25','2026-05-27',3,300.00,'Confermata','010B7F76',11,1);
 /*!40000 ALTER TABLE `prenotazione_alloggio` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -707,7 +707,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -739,7 +739,7 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -766,7 +766,7 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -786,7 +786,7 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -807,7 +807,7 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -869,7 +869,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -894,7 +894,7 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -921,7 +921,7 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -999,7 +999,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -1019,7 +1019,7 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -1075,7 +1075,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -1152,7 +1152,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -1423,7 +1423,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_alloggi_con_servizi` AS select `a`.`id_alloggio` AS `id_alloggio`,`a`.`titolo` AS `titolo`,`a`.`prezzo_notte` AS `prezzo_notte`,`a`.`tipo_alloggio` AS `tipo_alloggio`,`a`.`id_citta` AS `id_citta`,group_concat(`s`.`nome` separator ', ') AS `servizi_offerti` from ((`alloggio` `a` left join `offre` `o` on((`a`.`id_alloggio` = `o`.`id_alloggio`))) left join `servizio` `s` on((`o`.`id_servizio` = `s`.`id_servizio`))) group by `a`.`id_alloggio` */;
@@ -1441,7 +1441,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_classifica_alloggi` AS select `a`.`id_alloggio` AS `id_alloggio`,`a`.`titolo` AS `titolo`,`a`.`tipo_alloggio` AS `tipo_alloggio`,`c`.`nome` AS `citta`,round(avg(`r`.`voto`),1) AS `media_voti`,count(`r`.`id_recensione`) AS `numero_recensioni` from (((`alloggio` `a` join `citta` `c` on((`a`.`id_citta` = `c`.`id_citta`))) left join `prenotazione_alloggio` `p` on((`a`.`id_alloggio` = `p`.`id_alloggio`))) left join `recensione_alloggio` `r` on((`p`.`id_prenotazione` = `r`.`id_prenotazione`))) group by `a`.`id_alloggio` order by round(avg(`r`.`voto`),1) desc */;
@@ -1459,7 +1459,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_classifica_esperienze` AS select `e`.`id_esperienza` AS `id_esperienza`,`e`.`titolo` AS `titolo`,`e`.`categoria` AS `categoria`,round(avg(`r`.`voto`),1) AS `media_voti`,count(`r`.`id_recensione_esperienza`) AS `numero_recensioni` from ((`esperienze` `e` left join `prenotazione_esperienze` `pe` on((`e`.`id_esperienza` = `pe`.`id_esperienza`))) left join `recensione_esperienze` `r` on((`pe`.`id_prenotazione_esperienza` = `r`.`id_prenotazione_esperienza`))) group by `e`.`id_esperienza` order by round(avg(`r`.`voto`),1) desc */;
@@ -1477,7 +1477,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_dashboard_guadagni_agenzia` AS select `ag`.`id_agenzia` AS `id_agenzia`,`ag`.`nome` AS `nome_agenzia`,count(`pe`.`id_prenotazione_esperienza`) AS `numero_prenotazioni_totali`,sum(`pe`.`prezzo_totale`) AS `totale_guadagnato_euro`,sum(`pe`.`numero_partecipanti`) AS `totale_partecipanti` from ((`agenzia` `ag` join `esperienze` `e` on((`ag`.`id_agenzia` = `e`.`id_agenzia`))) join `prenotazione_esperienze` `pe` on((`e`.`id_esperienza` = `pe`.`id_esperienza`))) where ((`pe`.`stato` = 'Confermata') or (`pe`.`stato` = 'Completata')) group by `ag`.`id_agenzia` */;
@@ -1495,7 +1495,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_dashboard_guadagni_host` AS select `h`.`id_host` AS `id_host`,`u`.`nome` AS `nome`,`u`.`cognome` AS `cognome`,count(`p`.`id_prenotazione`) AS `numero_prenotazioni_totali`,sum(`p`.`prezzo_totale`) AS `totale_guadagnato_euro` from (((`host` `h` join `utente` `u` on((`h`.`id_host` = `u`.`id_utente`))) join `alloggio` `a` on((`h`.`id_host` = `a`.`id_host`))) join `prenotazione_alloggio` `p` on((`a`.`id_alloggio` = `p`.`id_alloggio`))) where ((`p`.`stato` = 'Confermata') or (`p`.`stato` = 'Completata')) group by `h`.`id_host` */;
@@ -1513,7 +1513,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_dettaglio_prenotazione_ospite` AS select `p`.`id_prenotazione` AS `id_prenotazione`,`p`.`id_utente` AS `ospite_id`,`a`.`titolo` AS `nome_alloggio`,`c`.`nome` AS `citta_alloggio`,`p`.`check_in` AS `check_in`,`p`.`check_out` AS `check_out`,`p`.`prezzo_totale` AS `prezzo_totale`,`p`.`stato` AS `stato`,`p`.`codice_conferma` AS `codice_conferma`,`uh`.`nome` AS `nome_host` from (((`prenotazione_alloggio` `p` join `alloggio` `a` on((`p`.`id_alloggio` = `a`.`id_alloggio`))) join `citta` `c` on((`a`.`id_citta` = `c`.`id_citta`))) join `utente` `uh` on((`a`.`id_host` = `uh`.`id_utente`))) */;
@@ -1531,7 +1531,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_esplora_dintorni` AS select `a`.`id_alloggio` AS `id_alloggio`,`a`.`titolo` AS `nome_alloggio`,`c`.`nome` AS `citta`,`pi`.`nome` AS `punto_interesse`,`pi`.`categoria` AS `categoria`,`pi`.`descrizione` AS `descrizione` from ((`alloggio` `a` join `citta` `c` on((`a`.`id_citta` = `c`.`id_citta`))) join `punti_interesse` `pi` on((`c`.`id_citta` = `pi`.`id_citta`))) */;
@@ -1549,7 +1549,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_fatturazione_prenotazioni` AS select `pa`.`id_prenotazione` AS `id_prenotazione`,`pa`.`codice_conferma` AS `codice_conferma`,`pa`.`data_prenotazione` AS `data_prenotazione`,`u_ospite`.`nome` AS `nome_ospite`,`u_ospite`.`cognome` AS `cognome_ospite`,`a`.`titolo` AS `alloggio_prenotato`,`u_host`.`nome` AS `nome_host_proprietario`,`u_host`.`cognome` AS `cognome_host_proprietario`,`pa`.`prezzo_totale` AS `prezzo_totale` from (((`prenotazione_alloggio` `pa` join `utente` `u_ospite` on((`pa`.`id_utente` = `u_ospite`.`id_utente`))) join `alloggio` `a` on((`pa`.`id_alloggio` = `a`.`id_alloggio`))) join `utente` `u_host` on((`a`.`id_host` = `u_host`.`id_utente`))) */;
@@ -1567,7 +1567,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_prenotazioni_da_recensire` AS select `pa`.`id_prenotazione` AS `id_prenotazione`,`pa`.`codice_conferma` AS `codice_conferma`,`u`.`nome` AS `nome_ospite`,`u`.`email` AS `email_ospite`,`a`.`titolo` AS `nome_alloggio`,`pa`.`check_out` AS `check_out` from (((`prenotazione_alloggio` `pa` join `utente` `u` on((`pa`.`id_utente` = `u`.`id_utente`))) join `alloggio` `a` on((`pa`.`id_alloggio` = `a`.`id_alloggio`))) left join `recensione_alloggio` `ra` on((`pa`.`id_prenotazione` = `ra`.`id_prenotazione`))) where (((`pa`.`stato` = 'Completata') or (`pa`.`check_out` < curdate())) and (`ra`.`id_recensione` is null)) */;
@@ -1585,7 +1585,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_profilo_agenzia_completo` AS select `ag`.`id_agenzia` AS `id_agenzia`,`ag`.`nome` AS `nome`,`ag`.`email` AS `email`,`ag`.`telefono` AS `telefono`,group_concat(distinct `l`.`nome` separator ', ') AS `lingue_parlate`,count(distinct `e`.`id_esperienza`) AS `numero_esperienze_offerte` from (((`agenzia` `ag` left join `parla_agenzia` `pa` on((`ag`.`id_agenzia` = `pa`.`id_agenzia`))) left join `lingua` `l` on((`pa`.`id_lingua` = `l`.`id_lingua`))) left join `esperienze` `e` on((`ag`.`id_agenzia` = `e`.`id_agenzia`))) group by `ag`.`id_agenzia` */;
@@ -1603,7 +1603,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_profilo_host_completo` AS select `u`.`id_utente` AS `id_utente`,`u`.`nome` AS `nome`,`u`.`cognome` AS `cognome`,`h`.`descrizione_profilo` AS `descrizione_profilo`,`h`.`data_attivazione` AS `data_attivazione`,group_concat(distinct `l`.`nome` separator ', ') AS `lingue_parlate`,group_concat(distinct `b`.`nome` separator ', ') AS `badge_ottenuti` from (((((`host` `h` join `utente` `u` on((`h`.`id_host` = `u`.`id_utente`))) left join `parla_host` `ph` on((`h`.`id_host` = `ph`.`id_host`))) left join `lingua` `l` on((`ph`.`id_lingua` = `l`.`id_lingua`))) left join `ottiene` `o` on((`h`.`id_host` = `o`.`id_host`))) left join `badge` `b` on((`o`.`id_badge` = `b`.`id_badge`))) group by `h`.`id_host` */;
@@ -1621,7 +1621,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_profilo_ospite_crm` AS select `u`.`id_utente` AS `id_utente`,`u`.`nome` AS `nome`,`u`.`cognome` AS `cognome`,`u`.`email` AS `email`,count(distinct `pa`.`id_prenotazione`) AS `soggiorni_effettuati`,count(distinct `pe`.`id_prenotazione_esperienza`) AS `esperienze_svolte` from ((`utente` `u` left join `prenotazione_alloggio` `pa` on((`u`.`id_utente` = `pa`.`id_utente`))) left join `prenotazione_esperienze` `pe` on((`u`.`id_utente` = `pe`.`id_utente`))) group by `u`.`id_utente` */;
@@ -1639,7 +1639,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_statistiche_servizi` AS select `s`.`id_servizio` AS `id_servizio`,`s`.`nome` AS `nome_servizio`,`s`.`categoria` AS `categoria`,count(`o`.`id_alloggio`) AS `numero_alloggi_che_lo_offrono` from (`servizio` `s` left join `offre` `o` on((`s`.`id_servizio` = `o`.`id_servizio`))) group by `s`.`id_servizio` order by count(`o`.`id_alloggio`) desc */;
@@ -1657,7 +1657,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `vista_top_destinazioni` AS select `c`.`id_citta` AS `id_citta`,`c`.`nome` AS `citta`,`c`.`nazione` AS `nazione`,count(distinct `a`.`id_alloggio`) AS `numero_alloggi_disponibili`,count(`p`.`id_prenotazione`) AS `numero_prenotazioni_totali` from ((`citta` `c` left join `alloggio` `a` on((`c`.`id_citta` = `a`.`id_citta`))) left join `prenotazione_alloggio` `p` on((`a`.`id_alloggio` = `p`.`id_alloggio`))) group by `c`.`id_citta` order by count(`p`.`id_prenotazione`) desc */;
@@ -1674,4 +1674,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-22 10:14:09
+-- Dump completed on 2026-05-29 10:48:53
