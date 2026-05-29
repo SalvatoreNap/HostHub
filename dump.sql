@@ -533,31 +533,6 @@ INSERT INTO `host` VALUES (1,'Amo viaggiare e ospitare persone','2025-01-11'),(2
 UNLOCK TABLES;
 
 --
--- Table structure for table `lingua`
---
-
-DROP TABLE IF EXISTS `lingua`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `lingua` (
-  `id_lingua` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id_lingua`),
-  UNIQUE KEY `nome` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `lingua`
---
-
-LOCK TABLES `lingua` WRITE;
-/*!40000 ALTER TABLE `lingua` DISABLE KEYS */;
-INSERT INTO `lingua` VALUES (8,'Arabo'),(7,'Cinese'),(4,'Francese'),(6,'Giapponese'),(2,'Inglese'),(1,'Italiano'),(9,'Portoghese'),(10,'Russo'),(3,'Spagnolo'),(5,'Tedesco');
-/*!40000 ALTER TABLE `lingua` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `offre`
 --
 
@@ -610,60 +585,6 @@ LOCK TABLES `ottiene` WRITE;
 /*!40000 ALTER TABLE `ottiene` DISABLE KEYS */;
 INSERT INTO `ottiene` VALUES (1,1,'2025-06-01'),(2,2,'2025-07-01'),(3,3,'2025-08-01'),(4,4,'2025-09-01'),(5,5,'2025-10-01'),(6,6,'2025-11-01'),(7,7,'2025-12-01'),(8,8,'2026-01-01'),(9,9,'2026-02-01'),(10,10,'2026-03-01');
 /*!40000 ALTER TABLE `ottiene` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `parla_agenzia`
---
-
-DROP TABLE IF EXISTS `parla_agenzia`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `parla_agenzia` (
-  `id_agenzia` int NOT NULL,
-  `id_lingua` int NOT NULL,
-  PRIMARY KEY (`id_agenzia`,`id_lingua`),
-  KEY `id_lingua` (`id_lingua`),
-  CONSTRAINT `parla_agenzia_ibfk_1` FOREIGN KEY (`id_agenzia`) REFERENCES `agenzia` (`id_agenzia`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `parla_agenzia_ibfk_2` FOREIGN KEY (`id_lingua`) REFERENCES `lingua` (`id_lingua`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `parla_agenzia`
---
-
-LOCK TABLES `parla_agenzia` WRITE;
-/*!40000 ALTER TABLE `parla_agenzia` DISABLE KEYS */;
-INSERT INTO `parla_agenzia` VALUES (1,1),(3,1),(7,1),(1,2),(2,2),(6,2),(8,2),(9,3),(4,4),(5,5);
-/*!40000 ALTER TABLE `parla_agenzia` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `parla_host`
---
-
-DROP TABLE IF EXISTS `parla_host`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `parla_host` (
-  `id_host` int NOT NULL,
-  `id_lingua` int NOT NULL,
-  PRIMARY KEY (`id_host`,`id_lingua`),
-  KEY `id_lingua` (`id_lingua`),
-  CONSTRAINT `parla_host_ibfk_1` FOREIGN KEY (`id_host`) REFERENCES `host` (`id_host`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `parla_host_ibfk_2` FOREIGN KEY (`id_lingua`) REFERENCES `lingua` (`id_lingua`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `parla_host`
---
-
-LOCK TABLES `parla_host` WRITE;
-/*!40000 ALTER TABLE `parla_host` DISABLE KEYS */;
-INSERT INTO `parla_host` VALUES (1,1),(5,1),(8,1),(1,2),(2,2),(6,2),(9,2),(3,3),(4,4),(7,5);
-/*!40000 ALTER TABLE `parla_host` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1331,23 +1252,6 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = @saved_cs_client;
 
 --
--- Temporary view structure for view `vista_profilo_agenzia_completo`
---
-
-DROP TABLE IF EXISTS `vista_profilo_agenzia_completo`;
-/*!50001 DROP VIEW IF EXISTS `vista_profilo_agenzia_completo`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `vista_profilo_agenzia_completo` AS SELECT 
- 1 AS `id_agenzia`,
- 1 AS `nome`,
- 1 AS `email`,
- 1 AS `telefono`,
- 1 AS `lingue_parlate`,
- 1 AS `numero_esperienze_offerte`*/;
-SET character_set_client = @saved_cs_client;
-
---
 -- Temporary view structure for view `vista_profilo_host_completo`
 --
 
@@ -1361,7 +1265,6 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `cognome`,
  1 AS `descrizione_profilo`,
  1 AS `data_attivazione`,
- 1 AS `lingue_parlate`,
  1 AS `badge_ottenuti`*/;
 SET character_set_client = @saved_cs_client;
 
@@ -1576,24 +1479,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Final view structure for view `vista_profilo_agenzia_completo`
---
-
-/*!50001 DROP VIEW IF EXISTS `vista_profilo_agenzia_completo`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `vista_profilo_agenzia_completo` AS select `ag`.`id_agenzia` AS `id_agenzia`,`ag`.`nome` AS `nome`,`ag`.`email` AS `email`,`ag`.`telefono` AS `telefono`,group_concat(distinct `l`.`nome` separator ', ') AS `lingue_parlate`,count(distinct `e`.`id_esperienza`) AS `numero_esperienze_offerte` from (((`agenzia` `ag` left join `parla_agenzia` `pa` on((`ag`.`id_agenzia` = `pa`.`id_agenzia`))) left join `lingua` `l` on((`pa`.`id_lingua` = `l`.`id_lingua`))) left join `esperienze` `e` on((`ag`.`id_agenzia` = `e`.`id_agenzia`))) group by `ag`.`id_agenzia` */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
 -- Final view structure for view `vista_profilo_host_completo`
 --
 
@@ -1606,7 +1491,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `vista_profilo_host_completo` AS select `u`.`id_utente` AS `id_utente`,`u`.`nome` AS `nome`,`u`.`cognome` AS `cognome`,`h`.`descrizione_profilo` AS `descrizione_profilo`,`h`.`data_attivazione` AS `data_attivazione`,group_concat(distinct `l`.`nome` separator ', ') AS `lingue_parlate`,group_concat(distinct `b`.`nome` separator ', ') AS `badge_ottenuti` from (((((`host` `h` join `utente` `u` on((`h`.`id_host` = `u`.`id_utente`))) left join `parla_host` `ph` on((`h`.`id_host` = `ph`.`id_host`))) left join `lingua` `l` on((`ph`.`id_lingua` = `l`.`id_lingua`))) left join `ottiene` `o` on((`h`.`id_host` = `o`.`id_host`))) left join `badge` `b` on((`o`.`id_badge` = `b`.`id_badge`))) group by `h`.`id_host` */;
+/*!50001 VIEW `vista_profilo_host_completo` AS select `u`.`id_utente` AS `id_utente`,`u`.`nome` AS `nome`,`u`.`cognome` AS `cognome`,`h`.`descrizione_profilo` AS `descrizione_profilo`,`h`.`data_attivazione` AS `data_attivazione`,group_concat(distinct `b`.`nome` separator ', ') AS `badge_ottenuti` from (((`host` `h` join `utente` `u` on((`h`.`id_host` = `u`.`id_utente`))) left join `ottiene` `o` on((`h`.`id_host` = `o`.`id_host`))) left join `badge` `b` on((`o`.`id_badge` = `b`.`id_badge`))) group by `u`.`id_utente`,`u`.`nome`,`u`.`cognome`,`h`.`descrizione_profilo`,`h`.`data_attivazione` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -1674,4 +1559,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-29 10:48:53
+-- Dump completed on 2026-05-29 14:16:15
