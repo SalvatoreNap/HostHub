@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.db import connection
+from django.db import connection, DatabaseError
 from core.models import *
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
@@ -232,24 +232,55 @@ def dettaglio_alloggio(request, id_alloggio):
         codice_conferma = str(uuid.uuid4())[:8].upper()
         
         # Crea prenotazione
-        PrenotazioneAlloggio.objects.create(
-            data_prenotazione=date.today(),
-            check_in=check_in,
-            check_out=check_out,
-            numero_ospiti=numero_ospiti,
-            prezzo_totale=prezzo_totale,
-            stato='Confermata',
-            codice_conferma=codice_conferma,
-            id_utente_id=request.session['utente_id'],
-            id_alloggio_id=id_alloggio
-        )
-        
-        # Passa il codice_conferma al template per mostrare il modal
-        return render(request, 'dettaglio_alloggio.html', {
-            'alloggio': alloggio,
-            'prenotazione_confermata': True,
-            'codice_conferma': codice_conferma
-        })
+        try:
+            PrenotazioneAlloggio.objects.create(
+                data_prenotazione=date.today(),
+                check_in=check_in,
+                check_out=check_out,
+                numero_ospiti=numero_ospiti,
+                prezzo_totale=prezzo_totale,
+                stato='Confermata',
+                codice_conferma=codice_conferma,
+                id_utente_id=request.session['utente_id'],
+                id_alloggio_id=id_alloggio
+            )
+            
+            # Passa il codice_conferma al template per mostrare il modal
+            return render(request, 'dettaglio_alloggio.html', {
+                'alloggio': alloggio,
+                'prenotazione_confermata': True,
+                'codice_conferma': codice_conferma
+            })
+        except DatabaseError as e:
+            # Recupera recensioni per questo alloggio
+            recensioni_qs = RecensioneAlloggio.objects.filter(id_prenotazione__id_alloggio=alloggio).select_related('id_prenotazione')
+            recensioni = []
+            for r in recensioni_qs:
+                autore = None
+                try:
+                    ut = r.id_prenotazione.id_utente
+                    autore = f"{ut.nome} {ut.cognome}"
+                except Exception:
+                    autore = "Ospite"
+                recensioni.append({
+                    'voto': r.voto,
+                    'commento': r.commento,
+                    'data': r.data_recensione,
+                    'autore': autore,
+                })
+            
+            error_msg = str(e)
+            if "già prenotato" in error_msg or "sovrapposizione" in error_msg or "45000" in error_msg:
+                errore_messaggio = "Questo alloggio è già prenotato per le date selezionate."
+            else:
+                errore_messaggio = f"Errore durante la prenotazione: {error_msg}"
+                
+            return render(request, 'dettaglio_alloggio.html', {
+                'alloggio': alloggio,
+                'recensioni': recensioni,
+                'prenotazione_fallita': True,
+                'errore_messaggio': errore_messaggio
+            })
     
     # Recupera recensioni per questo alloggio
     recensioni_qs = RecensioneAlloggio.objects.filter(id_prenotazione__id_alloggio=alloggio).select_related('id_prenotazione')
@@ -597,22 +628,55 @@ def dettaglio_esperienza(request, id_esperienza):
         codice_conferma = str(uuid.uuid4())[:8].upper()
         
         # Crea prenotazione
-        PrenotazioneEsperienze.objects.create(
-            data_prenotazione=date.today(),
-            data_esperienza=data_esperienza,
-            numero_partecipanti=numero_partecipanti,
-            prezzo_totale=prezzo_totale,
-            stato='Confermata',
-            id_utente_id=request.session['utente_id'],
-            id_esperienza_id=id_esperienza
-        )
-        
-        # Passa il codice_conferma al template per mostrare il modal
-        return render(request, 'dettaglio_esperienza.html', {
-            'esperienza': esperienza,
-            'prenotazione_confermata': True,
-            'codice_conferma': codice_conferma
-        })
+        try:
+            PrenotazioneEsperienze.objects.create(
+                data_prenotazione=date.today(),
+                data_esperienza=data_esperienza,
+                numero_partecipanti=numero_partecipanti,
+                prezzo_totale=prezzo_totale,
+                stato='Confermata',
+                id_utente_id=request.session['utente_id'],
+                id_esperienza_id=id_esperienza
+            )
+            
+            # Passa il codice_conferma al template per mostrare il modal
+            return render(request, 'dettaglio_esperienza.html', {
+                'esperienza': esperienza,
+                'prenotazione_confermata': True,
+                'codice_conferma': codice_conferma
+            })
+        except DatabaseError as e:
+            # Recupera recensioni per questa esperienza
+            recensioni_qs = RecensioneEsperienze.objects.filter(id_prenotazione_esperienza__id_esperienza=esperienza).select_related('id_prenotazione_esperienza')
+            recensioni = []
+            for r in recensioni_qs:
+                autore = None
+                try:
+                    ut = r.id_prenotazione_esperienza.id_utente
+                    autore = f"{ut.nome} {ut.cognome}"
+                except Exception:
+                    autore = "Partecipante"
+                recensioni.append({
+                    'voto': r.voto,
+                    'commento': r.commento,
+                    'data': r.data_recensione,
+                    'autore': autore,
+                })
+            
+            error_msg = str(e)
+            if "capienza" in error_msg or "supera" in error_msg:
+                errore_messaggio = "Il numero di partecipanti supera la capienza massima prevista per questa esperienza."
+            elif "passato" in error_msg:
+                errore_messaggio = "La data dell'esperienza non può essere nel passato."
+            else:
+                errore_messaggio = f"Errore durante la prenotazione: {error_msg}"
+                
+            return render(request, 'dettaglio_esperienza.html', {
+                'esperienza': esperienza,
+                'recensioni': recensioni,
+                'prenotazione_fallita': True,
+                'errore_messaggio': errore_messaggio
+            })
     
     # Recupera recensioni per questa esperienza
     recensioni_qs = RecensioneEsperienze.objects.filter(id_prenotazione_esperienza__id_esperienza=esperienza).select_related('id_prenotazione_esperienza')
